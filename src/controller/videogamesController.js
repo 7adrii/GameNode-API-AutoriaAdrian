@@ -141,7 +141,7 @@ const deleteVideogame = async (req, res, next) => {
     res.status(200).json({
       code: 200,
       title: 'success',
-      message: 'Videogame deleted successfully'
+      message: `Videogame with id ${id} deleted successfully`
     });
 
   } catch (error) {
