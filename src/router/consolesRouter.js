@@ -3,13 +3,14 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllConsoles, getConsoleById, postConsole } = require('../controller/consolesController.js');
-const { validateConsoleId, validateAddConsole } = require('../validators/consoles.js');
+const { getAllConsoles, getConsoleById, postConsole, putConsole } = require('../controller/consolesController.js');
+const { validateConsoleId, validateAddConsole, validateUpdateConsole } = require('../validators/consoles.js');
 
 // Rutas
 
 router.get('/', getAllConsoles);
 router.get('/:id', validateConsoleId, getConsoleById);
 router.post('/', validateAddConsole, postConsole);
+router.put('/:id', validateUpdateConsole, putConsole);
 
 module.exports = router;
