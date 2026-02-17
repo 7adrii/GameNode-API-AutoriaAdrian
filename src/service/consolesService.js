@@ -117,10 +117,15 @@ const updateConsole = async (id, consoleData) => {
     }
 };
 
+const removeConsole = async (id) => {
+    return await db('consoles').where({ id }).del();
+}
+
 module.exports = {
     findAllConsoles,
     findConsoleById,
     addConsole,
-    updateConsole
+    updateConsole,
+    removeConsole
 }
 
