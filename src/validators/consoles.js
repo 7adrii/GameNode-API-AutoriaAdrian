@@ -10,6 +10,7 @@ const { validateResult } = require('../middlewares/validateResult.js');
  * 1. El parametro 'id' debe existir en la URL.
  * 2. El parametro 'id' debe ser un numero entero mayor que 0
  */
+
 const validateConsoleId = [
     param('id')
         .notEmpty().withMessage('id is required')
@@ -32,6 +33,7 @@ const validateConsoleId = [
  * 9. Si todas las validaciones pasan, se llama a la función validateResult para procesar los resultados de la validación.
  * 10. Esta cadena de validaciones se utiliza como middleware en la ruta POST / del router de consolas.
  */
+
 const validateAddConsole = [
     body('name')
         .trim()
@@ -67,6 +69,14 @@ const validateAddConsole = [
 
     validateResult
 ];
+
+/**
+ * Cadena de validaciones para la actualizacion completa de una consola
+ * Se aplica a la ruta PUT /:id
+ * Reglas:
+ * 1. El parametro 'id' debe existir en la URL.
+ * 2. El cuerpo de la peticion debe cumplir las mismas reglas que la creacion (POST)
+ */
 
 const validateUpdateConsole = [
     param('id')

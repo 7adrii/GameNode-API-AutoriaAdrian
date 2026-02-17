@@ -6,6 +6,7 @@ const db = require ('../configuration/database.js').db;
  * Metodo para obtener todos las consolas de la base de datos, incluyendo el nombre de la empresa a la que pertenece y los videojuegos disponibles.
  * @returns {Promise <Array>} Devuelve una promesa que resuelve en un array de objetos (consolas).
  */
+
 const findAllConsoles = async () => {
     const consoles = await db('consoles')
         .join('companies', 'consoles.company_id', 'companies.id')
@@ -36,6 +37,7 @@ const findAllConsoles = async () => {
  * @param {number} id 
  * @returns {Promise<Object|null>} Devuelve una promesa que resuelve en un objeto (consola) o null si no se encuentra la consola.
  */
+
 const findConsoleById = async (id) => {
     const console = await db('consoles')
         .where('consoles.id', id)
@@ -90,6 +92,7 @@ const addConsole = async (consoleData) => {
  * @param {*} consoleData - Objeto con los datos de la consola a actualizar.
  * @return {Promise<void>} Devuelve una promesa que se resuelve cuando la consola ha sido actualizada correctamente.
  */
+
 const updateConsole = async (id, consoleData) => {
     const { name, company_id, release_year, price, url } = consoleData;
     await db('consoles')
@@ -116,6 +119,12 @@ const updateConsole = async (id, consoleData) => {
         }
     }
 };
+
+/**
+ * Elimina una consola de la base de datos.
+ * @param {*} id - El id de la consola a eliminar
+ * @returns {Promise<number>} Devuelve una promesa que resuelve en el número de filas eliminadas.
+ */
 
 const removeConsole = async (id) => {
     return await db('consoles').where({ id }).del();
