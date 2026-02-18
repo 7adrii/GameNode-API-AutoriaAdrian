@@ -51,9 +51,9 @@ const getConsoleById = async (req, res, next) => {
             message: 'Console retrieved successfully',
             data: console
         })
-        } catch (error) {
-            next(error);
-        }
+    } catch (error) {
+        next(error);
+    }
 }
 
 /**
