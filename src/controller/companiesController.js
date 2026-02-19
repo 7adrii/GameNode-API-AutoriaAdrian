@@ -1,6 +1,6 @@
 // Archivo que implementa las operaciones que se deficen en /router/companiesRouter.js
 
-const { findAllCompanies, findCompanyById, addCompany, modifyCompany, removeCompany } = require('../service/companiesService');
+const { findAllCompanies, findCompanyById, addCompany, updateCompany, removeCompany } = require('../service/companiesService');
 
 /**
  * Obtien el listado de todas las empresas.
@@ -22,7 +22,7 @@ const getAllCompanies = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 /**
  * Obtine el detalle de una empresa por su id.
@@ -52,7 +52,7 @@ const getCompanyById = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
 
 /**
  * Agrega una nueva empresa a la base de datos.
@@ -80,27 +80,29 @@ const postCompany = async (req, res, next) => {
     console.error(error);
     next(error);
   }
-}
+};
 
 /**
- * Metodo para modificar una empresa existente.
- * Valida si la empresa existe antes de modificarla.
- * @param {Object} req - Objeto de petición de Express.
- * @param {Object} res - Objeto de respuesta de Express.
- * @returns {Promise<void>} Devuelve una respuesta JSON con código 200 y los datos de la empresa actualizada o 404 si no existe.
+ * Actualiza los datos de una empresa por su ID.
+ * Reemplaza los datos de una empresa con los dados en el cuerpo de la petición.
+ * @param {import('express').Request} req - Objeto de petición de Express.
+ * @param {import('express').Response} res - Objeto de respuesta de Express.
+ * @param {import('express').NextFunction} next - Función middleware para manejo de errores.
+ * @returns {Promise<void>} Devuelve una respuesta JSON con código 200 y los datos actualizados, o 404 si no se encuentra la empresa.
  */
 const putCompany = async (req, res, next) => {
     try {
         const { id } = req.params;
         const companyData = req.body;
-        await modifyCompany(id, companyData);
+        
+        await updateCompany(id, companyData);
 
         const updatedCompany = await findCompanyById(id);
 
         if (!updatedCompany) {
             return res.status(404).json({
                 code: 404,
-                title: 'not found',
+                title: 'not-found',
                 message: `Company with id ${id} not found`
             });
         }
@@ -109,13 +111,12 @@ const putCompany = async (req, res, next) => {
             code: 200,
             title: 'success',
             message: `Company with id ${id} updated successfully`,
-            data: modifyCompany
+            data: updatedCompany
         });
 
     } catch (error) {
         next(error);
     }
-
 };
 
 /**
