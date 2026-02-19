@@ -22,25 +22,15 @@ const findCompanyById = async (id) => {
 };
 
 /**
- * Metodo para agregar una nueva empresa a la base de datos.
- * @param {string} name 
- * @param {string} description 
- * @param {string} country 
- * @param {number} year_founded 
- * @param {string} website 
- * @param {string} logo 
- * @returns {Promise<number>} Devuelve el ID de la compañia creada.
+ * Agrega una nueva empresa a la base de datos.
+ * @param {Object} companyData - Objeto con los datos validados de la empresa.
+ * @returns {Promise<number>} Devuelve el ID de la empresa creada.
  */
-const addCompany = (async (name, description, country, year_founded, website, logo) => {
-    return await db('companies').insert({
-        name: name,
-        description: description,
-        country: country,
-        year_founded: year_founded,
-        website: website,
-        logo: logo
-    });
-});
+const addCompany = async (companyData) => {
+    const [newId] =  await db('companies').insert(companyData);
+    return newId;
+};
+
 /**
  * Metodo para modificar una empresa existente.
  * @param {number} id 
