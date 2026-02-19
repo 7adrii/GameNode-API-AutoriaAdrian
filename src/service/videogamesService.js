@@ -72,7 +72,7 @@ const addVideogame = async (videogameData) => {
   }
 
   return newId;
-}
+};
 
 /**
  * Actualiza la información de un videojuego existente.
@@ -98,7 +98,7 @@ const updateVideogame = async (id, videogameData) => {
       await db('videogame_console').insert(relations);
     }
   }
-}
+};
 
 /**
  * Elimina un videojuego por su ID.
@@ -107,7 +107,7 @@ const updateVideogame = async (id, videogameData) => {
  */
 const removeVideogame = async (id) => {
   return await db('videogames').where({ id }).del();
-}
+};
 
 module.exports = {
   findAllVideogames,
