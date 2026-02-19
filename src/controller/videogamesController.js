@@ -21,7 +21,7 @@ const getAllVideogames = async (req, res, next) => {
     });
   } catch (error) {
     next(error);
-  };
+  }
 };
 
 /**
@@ -51,7 +51,7 @@ const getVideogameById = async (req, res, next) => {
     })
   } catch (error) {
     next(error);
-  };
+  }
 };
 
 /**
@@ -146,7 +146,7 @@ const deleteVideogame = async (req, res, next) => {
 
   } catch (error) {
     next(error);
-  };
+  }
 };
 
 module.exports = {
