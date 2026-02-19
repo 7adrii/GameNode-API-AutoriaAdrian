@@ -53,47 +53,34 @@ const getCompanyById = async (req, res, next) => {
         next(error);
     }
 }
+
 /**
- * Metodo para agregar una nueva empresa a la base de datos.
- * Valida si ya existe una empresa con el mismo nombre antes de agregarla.
- * @param {Object} req - Objeto de petición de Express.
- * @param {Object} res - Objeto de respuesta de Express.
- * @returns {Promise<void>} Devuelve una respuesta JSON con código 201 y los datos de la empresa creada y 409 si ya existe una empresa con el mismo nombre.
+ * Agrega una nueva empresa a la base de datos.
+ * @param {import('express').Request} req - Objeto de petición de Express.
+ * @param {import('express').Response} res - Objeto de respuesta de Express.
+ * @param {import('express').NextFunction} next - Función middleware para manejo de errores.
+ * @returns {Promise<void>} Devuelve una respuesta JSON con código 201 y los datos de la empresa creada.
  */
 const postCompany = async (req, res, next) => {
-    try {
-        const name = req.body.name;
-        const description = req.body.description;
-        const country = req.body.country;
-        const year_founded = req.body.year_founded;
-        const website = req.body.website;
-        const logo = req.body.logo;
-
-        const result = await addCompany(name, description, country, year_founded, website, logo);
-        const newId = Array.isArray(result) ? result[0] : result;
-
-        const newCompany = {
-            id: newId,
-            name,
-            description,
-            country,
-            year_founded,
-            website,
-            logo
-        };
-
-        res.status(201).json({
-            code: 201,
-            title: 'created',
-            message: `Company with name ${name} created successfully`,
-            data: newCompany
-        });
-
-    } catch (error) {
-        console.error(error);
-        next(error);
+  try {
+    const companyData = req.body;
+    const newId = await addCompany(companyData);
+    const newCompany = {
+      id: newId,
+      ...companyData     
     }
-};
+
+    res.status(201).json({
+      code: 201,
+      title: 'created',
+      message: `Company with name ${companyData.name} created successfully`,
+      data: newCompany
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+}
 
 /**
  * Metodo para modificar una empresa existente.
