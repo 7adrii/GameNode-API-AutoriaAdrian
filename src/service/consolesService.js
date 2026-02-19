@@ -79,30 +79,23 @@ const addConsole = async (consoleData) => {
 };
 
 /**
- * Actualiza la informacion de la consola existente.
- * Actualiza los datos basicos y si se proporcionan videojuegos, actualiza las relaciones correspondientes en la tabla intermedia.
+ * Actualiza la información de una consola existente.
+ * Actualiza los datos básicos y si se proporciona una lista de videojuegos, 
+ * reemplaza las relaciones existentes por las nuevas.
  * @param {number} id - El id de la consola a actualizar. 
- * @param {*} consoleData - Objeto con los datos de la consola a actualizar.
- * @return {Promise<void>} Devuelve una promesa que se resuelve cuando la consola ha sido actualizada correctamente.
+ * @param {Object} consoleData - Objeto con los datos de la consola a actualizar (puede incluir 'videogames').
+ * @returns {Promise<void>}  No devuelve ningún valor. Ejecuta la operación en la base de datos.
  */
-
 const updateConsole = async (id, consoleData) => {
-    const { name, description, release_date, url, company_id, videogames } = consoleData;
-    await db('consoles')
-        .where({ id })
-        .update({
-            name,
-            description,
-            release_date,
-            url,
-            company_id
-        });
+    const { videogames, ...consoleInfo } = consoleData;
+    
+    await db('consoles').where({ id }).update(consoleInfo);
 
     if (videogames !== undefined) {
         await db('videogame_console').where({ console_id: id }).del();
 
-        if (videogames && videogames.length > 0) {
-            const relations = videogames.map((videogameId) => ({
+        if (videogames.length > 0) {
+            const relations = videogames.map(videogameId => ({
                 console_id: id,
                 videogame_id: videogameId
             }));
