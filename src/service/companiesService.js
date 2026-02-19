@@ -32,29 +32,17 @@ const addCompany = async (companyData) => {
 };
 
 /**
- * Metodo para modificar una empresa existente.
- * @param {number} id 
- * @param {string} name 
- * @param {string} description 
- * @param {string} country
- * @param {number} year_founded
- * @param {string} website
- * @param {string} logo
- * @returns {Promise<number>} Devuelve el ID de la compañia  actualizado.
+ * Actualiza la información de una empresa existente.
+ * @param {number} id - El ID de la empresa a actualizar.
+ * @param {Object} companyData - Objeto con los datos actualizados de la empresa.
+ * @returns {Promise<number>} Devuelve el número de filas afectadas (1 si se actualizó con éxito, 0 si no existía).
  */
-const modifyCompany = (async (id, companyData) => {
-    const {name, description, country,year_founded,website,logo}=companyData;
+const updateCompany = (async (id, companyData) => {
     return await db('companies')
-    .where({id})
-    .update({
-        name,
-        description,
-        country,
-        year_founded,
-        website,
-        logo
-    })
+      .where({ id })
+      .update(companyData);
 });
+
 /**
  * Metodo para eliminar una empresa por su id.
  * @param {number} id 
@@ -68,6 +56,6 @@ module.exports = {
     findAllCompanies,
     findCompanyById,
     addCompany,
-    modifyCompany,
+    updateCompany,
     removeCompany
 };
