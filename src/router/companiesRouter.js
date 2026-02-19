@@ -1,4 +1,4 @@
-// ARchivo que contiene la lista de todas las operaciones definidas en el /controller/companiesController.js
+// Archivo que contiene la lista de todas las operaciones definidas en el /controller/companiesController.js
 
 const express = require('express');
 const router = express.Router();
