@@ -12,17 +12,14 @@ const findAllConsoles = async () => {
         .join('companies', 'consoles.company_id', 'companies.id')
         .select('consoles.*', 'consoles.name', 'companies.name as company_name');
 
-    const VideogameRelations = await db('videogame_console')
+    const videogameRelations = await db('videogame_console')
         .join('videogames', 'videogame_console.videogame_id', 'videogames.id')
         .select('videogame_console.console_id', 'videogames.id as videogame_id', 'videogames.title as videogame_title');
 
     const consolesWithVideogames = consoles.map((console) => {
-        const consolesVideogames = VideogameRelations
-            .filter((relation) => relation.console_id === console.id)
-            .map(v => ({
-                id: v.videogame_id,
-                title: v.videogame_title
-            }));
+        const consolesVideogames = videogameRelations
+            .filter(relation => relation.console_id === console.id)
+            .map(v => ({ id: v.videogame_id, title: v.videogame_title }));
         return {
             ...console,
             videogames: consolesVideogames
