@@ -142,7 +142,7 @@ const deleteCompany = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             title: 'success',
-            message: `Company with id ${id} deleted successfully`,
+            message: `Company with id ${id} deleted successfully`
         });
 
     } catch (error) {
