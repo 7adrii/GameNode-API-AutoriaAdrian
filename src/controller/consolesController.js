@@ -119,22 +119,21 @@ const putConsole = async (req, res, next) => {
 
 /**
  * Elimina una consola por su id.
- * @param {*} req - Objeto de la peticion
- * @param {*} res - Objeto de la respuesta
- * @param {*} next - Función middleware para manejo de errores
- * @returns {Promise<void>} Devuelve una respuesta JSON con codigo 200 si se elimina correctamente o 404 si no se encuentra.
+ * @param {import('express').Request} req - Objeto de la petición.
+ * @param {import('express').Response} res - Objeto de la respuesta.
+ * @param {import('express').NextFunction} next - Función middleware para manejo de errores.
+ * @returns {Promise<void>} Devuelve una respuesta JSON con código 200 si la consola ha sido eliminada, o 404 si no se encuentra la consola.
  */
-
 const deleteConsole = async (req, res, next) => {
     try {
         const { id } = req.params;
 
         const deletedCount = await removeConsole(id);
 
-        if(deletedCount === 0) {
+        if (deletedCount === 0) {
             return res.status(404).json({
                 code: 404,
-                title: 'not found', 
+                title: 'not-found', 
                 message: `Console with id ${id} not found`
             });
         }
@@ -144,10 +143,11 @@ const deleteConsole = async (req, res, next) => {
             title: 'success',
             message: `Console with id ${id} deleted successfully`
         });
+
     } catch (error) {
         next(error);
     }
-}
+};
 
 module.exports = {
     getAllConsoles,
