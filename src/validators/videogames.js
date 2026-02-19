@@ -83,7 +83,7 @@ const validateAddVideogame = [
     .isInt({ gt: 0 }).withMessage('Each console ID must be a positive integer'),
 
   validateResult
-]
+];
 
 /**
  * Cadena de validaciones para la actualización completa de un videojuego.
@@ -100,7 +100,7 @@ const validateUpdateVideogame = [
   ...validateAddVideogame.slice(0, -1),
 
   validateResult
-]
+];
 
 module.exports = {
   validateVideogameId,
