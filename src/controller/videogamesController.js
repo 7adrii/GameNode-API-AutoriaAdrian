@@ -1,6 +1,7 @@
 // Este archivo implementa todas las operaciones que se han definido en el /router/videogamesRouter.js
 
 const { findAllVideogames, findVideogameById, addVideogame, updateVideogame, removeVideogame } = require('../service/videogamesService');
+const { calculatePriceWithTax } = require('../utils/priceUtils');
 
 /**
  * Obtiene el listado completo de videojuegos.
@@ -13,11 +14,22 @@ const { findAllVideogames, findVideogameById, addVideogame, updateVideogame, rem
 const getAllVideogames = async (req, res, next) => {
   try {
     const videogames = await findAllVideogames();
+
+    const videogamesWithTax = videogames.map(game => {
+
+      const taxPrice = calculatePriceWithTax(Number(game.price));
+
+      return {
+        ...game,
+        ...(taxPrice !== null && { priceWithTax: taxPrice })
+      };
+    });
+
     res.status(200).json({
       code: 200,
       title: 'success',
       message: 'Videogames retrieved successfully',
-      data: videogames
+      data: videogamesWithTax
     });
   } catch (error) {
     next(error);
