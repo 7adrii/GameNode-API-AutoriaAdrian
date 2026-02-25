@@ -7,6 +7,7 @@ const {
   updateCompany,
   removeCompany,
 } = require("../service/companiesService");
+const { yearsSinceFounded } = require("../utils/yearsSinceFounded");
 
 /**
  * Obtien el listado de todas las empresas.
@@ -19,11 +20,19 @@ const {
 const getAllCompanies = async (req, res, next) => {
   try {
     const companies = await findAllCompanies();
+    const companiesWithYears = companies.map((company) => {
+      const years = yearsSinceFounded(Number(company.year_founded));
+      return {
+        ...company,
+        yearsSinceFounded: years
+      };
+    });
+    
     res.status(200).json({
       code: 200,
       title: "success",
       message: "Companies retrieved successfully",
-      data: companies,
+      data: companiesWithYears
     });
   } catch (error) {
     next(error);
@@ -49,12 +58,20 @@ const getCompanyById = async (req, res, next) => {
         message: `Company with id ${id} not found`,
       });
     }
+
+    const years = yearsSinceFounded(Number(company.year_founded));
+    const companyWithYears = {
+        ...company,
+        yearsSinceFounded: years
+    };
+
     res.status(200).json({
       code: 200,
       title: "success",
       message: "Company retrieved successfully",
-      data: company,
+      data: companyWithYears
     });
+
   } catch (error) {
     next(error);
   }
