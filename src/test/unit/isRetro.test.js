@@ -34,7 +34,7 @@ describe('Utils: isRetro', () => {
 
     test('Should use the current date if no referenceDate is provided', () => {
         const twentyOneYearsAgo = new Date()
-        twentyOneYearsAgo.setFullYear(twentyYearsAgo.getFullYear() - 21)
+        twentyOneYearsAgo.setFullYear(twentyOneYearsAgo.getFullYear() - 21)
         expect(isRetro(twentyOneYearsAgo)).toBe(true)
     })
 })
