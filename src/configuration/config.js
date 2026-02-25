@@ -1,18 +1,24 @@
 const yaml = require("js-yaml");
 const fs = require("fs");
 const path = require("path");
-const yargs = require("yargs/yargs");
-const { hideBin } = require("yargs/helpers");
+
 
 let config;
 let swaggerDocument;
 
 try {
   let configFile = "config.local.yaml";
-  const argv = yargs(hideBin(process.argv)).argv;
-  if (argv.config !== undefined) {
-    configFile = argv.config;
+  
+  if (process.env.NODE_ENV !== "test") {
+    const yargs = require("yargs/yargs");
+    const { hideBin } = require("yargs/helpers");
+    const argv = yargs(hideBin(process.argv)).argv;
+    
+    if (argv.config !== undefined) {
+      configFile = argv.config;
+    }
   }
+
   const absoluteConfigPath = path.resolve(process.cwd(), configFile);
   config = yaml.load(fs.readFileSync(absoluteConfigPath, "utf-8"));
 
