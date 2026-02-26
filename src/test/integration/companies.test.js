@@ -165,4 +165,42 @@ describe('Integration tests for companies API', () => {
       expect(res.body).toHaveProperty('errors');
     });
   });
+
+  describe('DELETE /companies/:id', () => {
+    beforeEach(async () => {
+      try {
+        await db('companies').del();
+      } catch (e) {}
+      await db('companies').insert({
+        id: 60,
+        name: 'ToRemove',
+        description: 'To be removed',
+        country: 'DE',
+        year_founded: 2015,
+        website: 'https://remove.me',
+        logo: 'logo.png'
+      });
+    });
+
+    test('deletes existing company (200)', async () => {
+      const res = await request(app).delete('/companies/60');
+      expect(res.statusCode).toBe(200);
+      expect(res.body.title).toBe('success');
+
+      const check = await request(app).get('/companies/60');
+      expect(check.statusCode).toBe(404);
+    });
+
+    test('returns 404 when deleting non-existent company', async () => {
+      const res = await request(app).delete('/companies/999999');
+      expect(res.statusCode).toBe(404);
+      expect(res.body.title).toBe('not-found');
+    });
+
+    test('returns 400 when id invalid', async () => {
+      const res = await request(app).delete('/companies/abc');
+      expect(res.statusCode).toBe(400);
+      expect(res.body).toHaveProperty('errors');
+    });
+  });
 });
