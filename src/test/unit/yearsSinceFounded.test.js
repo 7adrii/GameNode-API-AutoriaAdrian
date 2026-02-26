@@ -1,6 +1,7 @@
 const { yearsSinceFounded } = require('../../utils/yearsSinceFounded');
 
 describe("Utils: dateUtils", () => {
+  
   describe("yearsSinceFounded", () => {
     
     beforeAll(() => {
@@ -34,4 +35,5 @@ describe("Utils: dateUtils", () => {
     });
 
   });
+  
 });
