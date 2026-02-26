@@ -147,4 +147,60 @@ describe('Integration test for consoles API', () => {
       expect(Array.isArray(response.body.errors)).toBe(true);
     });
   });
+
+  // PUT /consoles/:id
+  describe('PUT /consoles/:id', () => {
+    test('should update an existing console', async () => {
+      const updatedData = {
+        name: 'PlayStation 5 Updated',
+        description: 'Descripción actualizada',
+        release_date: '2020-11-12',
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/PlayStation_5_and_DualSense_with_transparent_background.png/1200px-PlayStation_5_and_DualSense_with_transparent_background.png',
+        company_id: 1
+      };
+
+      const response = await request(app).put('/consoles/1').send(updatedData);
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.body.title).toBe('success');
+      expect(response.body.message).toBe('Console updated successfully');
+      expect(response.body.data.name).toBe('PlayStation 5 Updated');
+
+      const dbConsole = await db('consoles').where({ id: 1 }).first();
+
+        expect(dbConsole).toBeDefined();
+      expect(dbConsole.name).toBe('PlayStation 5 Updated');
+    });
+
+    test('should return 404 if console to update is not found', async () => {
+      const updatedData = {
+        name: 'Nonexistent Console',
+        description: 'Esta consola no existe',
+        release_date: '2022-01-01',
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/PlayStation_5_and_DualSense_with_transparent_background.png/1200px-PlayStation_5_and_DualSense_with_transparent_background.png',
+        company_id: 1
+      };
+
+      const response = await request(app).put('/consoles/999').send(updatedData);
+
+      expect(response.statusCode).toEqual(404);
+      expect(response.body.title).toBe('not-found');
+      expect(response.body.message).toBe('Console with id 999 not found after update');
+    });
+
+    test('should return 400 for invalid input data', async () => {
+      const invalidData = {
+        name: '',
+        description: 'Nombre no puede estar vacío',
+        release_date: '2022-01-01',
+        url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/PlayStation_5_and_DualSense_with_transparent_background.png/1200px-PlayStation_5_and_DualSense_with_transparent_background.png'
+      };
+
+      const response = await request(app).put('/consoles/1').send(invalidData);
+
+      expect(response.statusCode).toEqual(400);
+      expect(response.body.title).toBe('validation error');
+      expect(Array.isArray(response.body.errors)).toBe(true);
+    });
+  });
 });
