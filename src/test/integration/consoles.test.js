@@ -56,18 +56,20 @@ describe('Integration test for consoles API', () => {
 
     // GET /consoles
 
-    test('should return a list of consoles', async () => {
-        const response = await request(app).get('/consoles');
+    describe('GET /consoles', () => {
 
-        expect(response.status).toEqual(200);
-        expect(response.body.title).toBe('success')
-        expect(response.body.message).toBe('Consoles retrieved successfully');
-        expect(response.body).toHaveProperty('data');
-        expect(Array.isArray(response.body.data)).toBe(true);
+        test('should return a list of consoles', async () => {
+            const response = await request(app).get('/consoles');
 
-        expect(response.body.data[0].name).toBe('PlayStation 5');
-        expect(response.body.data[0]).toHaveProperty('retro');
+            expect(response.status).toEqual(200);
+            expect(response.body.title).toBe('success')
+            expect(response.body.message).toBe('Consoles retrieved successfully');
+            expect(response.body).toHaveProperty('data');
+            expect(Array.isArray(response.body.data)).toBe(true);
 
+            expect(response.body.data[0].name).toBe('PlayStation 5');
+            expect(response.body.data[0]).toHaveProperty('retro');
+
+        });
     });
-
 });
