@@ -66,4 +66,48 @@ describe('Integration tests for companies API', () => {
       expect(res.body).toHaveProperty('errors');
     });
   });
+
+  describe('POST /companies', () => {
+    beforeEach(async () => {
+      try { await db('companies').del(); } catch (e) {}
+    });
+
+    test('creates company (201) with valid payload', async () => {
+      const payload = {
+        name: 'IntegrationCo',
+        description: 'Integration test company',
+        country: 'Spain',
+        year_founded: 1995,
+        website: 'https://integration.co',
+        logo: 'logo.png'
+      };
+
+      const res = await request(app).post('/companies').send(payload);
+      expect(res.statusCode).toBe(201);
+      expect(res.body.title).toBe('created');
+      expect(res.body.data).toHaveProperty('id');
+      expect(res.body.data.name).toBe(payload.name);
+    });
+
+    test('returns 400 when required fields missing', async () => {
+      const payload = { description: 'No name', country: 'Nowhere' };
+      const res = await request(app).post('/companies').send(payload);
+      expect(res.statusCode).toBe(400);
+      expect(res.body).toHaveProperty('errors');
+    });
+
+    test('returns 400 when year_founded out of range', async () => {
+      const payload = {
+        name: 'BadYearCo',
+        country: 'Nowhere',
+        year_founded: 1700,
+        website: 'https://bad.co'
+      };
+      const res = await request(app).post('/companies').send(payload);
+      expect(res.statusCode).toBe(400);
+      expect(res.body).toHaveProperty('errors');
+    });
+  });
+
 });
+
