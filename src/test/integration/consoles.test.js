@@ -3,7 +3,9 @@ const app = require('../../app');
 const { db } = require('../../configuration/database');
 
 describe('Integration test for consoles API', () => {
+  
   beforeAll(async () => {
+    
     await db.raw('SET FOREIGN_KEY_CHECKS = 0;');
 
     await db('videogame_console').truncate();
@@ -47,6 +49,7 @@ describe('Integration test for consoles API', () => {
       videogame_id: 1,
       console_id: 1
     });
+
   });
 
   afterAll(async () => {
@@ -54,9 +57,10 @@ describe('Integration test for consoles API', () => {
   });
 
   // GET /consoles
-
   describe('GET /consoles', () => {
+    
     test('should return a list of consoles', async () => {
+      
       const response = await request(app).get('/consoles');
 
       expect(response.status).toEqual(200);
@@ -67,13 +71,16 @@ describe('Integration test for consoles API', () => {
 
       expect(response.body.data[0].name).toBe('PlayStation 5');
       expect(response.body.data[0]).toHaveProperty('retro');
+    
     });
+  
   });
 
   // GET /consoles/:id
-
   describe('GET /consoles/:id', () => {
+    
     test('should return a specific console by ID', async () => {
+      
       const response = await request(app).get('/consoles/1');
 
       expect(response.status).toEqual(200);
@@ -82,29 +89,36 @@ describe('Integration test for consoles API', () => {
       expect(response.body).toHaveProperty('data');
       expect(response.body.data.name).toBe('PlayStation 5');
       expect(response.body.data).toHaveProperty('retro');
+    
     });
 
     test('should return 404 if console not found', async () => {
+      
       const response = await request(app).get('/consoles/999');
 
       expect(response.status).toEqual(404);
       expect(response.body.title).toBe('not found');
       expect(response.body.message).toBe('Console with id 999 not found');
+    
     });
 
     test('should return 400 for invalid ID', async () => {
+      
       const response = await request(app).get('/consoles/invalid');
 
       expect(response.status).toEqual(400);
       expect(response.body.title).toBe('validation error');
       expect(Array.isArray(response.body.errors)).toBe(true);
+    
     });
+  
   });
 
   // POST /consoles
-
   describe('POST /consoles', () => {
+    
     test('should create a new console', async () => {
+      
       const newConsole = {
         name: 'Nintendo Switch',
         description: 'La consola híbrida de Nintendo.',
@@ -124,15 +138,19 @@ describe('Integration test for consoles API', () => {
       const createId = response.body.data.id;
 
       const dbConsole = await db('consoles').where({ id: createId }).first();
+      
       expect(dbConsole).toBeDefined();
       expect(dbConsole.name).toBe('Nintendo Switch');
 
       const dbRelation = await db('videogame_console').where({ console_id: createId }).first();
+      
       expect(dbRelation.console_id).toBe(createId);
       expect(dbRelation.videogame_id).toBe(1);
+    
     });
 
     test('should return 400 for missing required fields', async () => {
+      
       const invalidConsole = {
         description: 'Falta el nombre',
         release_date: '2022-01-01',
@@ -145,12 +163,16 @@ describe('Integration test for consoles API', () => {
       expect(response.status).toEqual(400);
       expect(response.body.title).toBe('validation error');
       expect(Array.isArray(response.body.errors)).toBe(true);
+    
     });
+  
   });
 
   // PUT /consoles/:id
   describe('PUT /consoles/:id', () => {
+    
     test('should update an existing console', async () => {
+      
       const updatedData = {
         name: 'PlayStation 5 Updated',
         description: 'Descripción actualizada',
@@ -170,9 +192,11 @@ describe('Integration test for consoles API', () => {
 
       expect(dbConsole).toBeDefined();
       expect(dbConsole.name).toBe('PlayStation 5 Updated');
+    
     });
 
     test('should return 404 if console to update is not found', async () => {
+      
       const updatedData = {
         name: 'Nonexistent Console',
         description: 'Esta consola no existe',
@@ -186,9 +210,11 @@ describe('Integration test for consoles API', () => {
       expect(response.statusCode).toEqual(404);
       expect(response.body.title).toBe('not-found');
       expect(response.body.message).toBe('Console with id 999 not found after update');
+    
     });
 
     test('should return 400 for invalid input data', async () => {
+      
       const invalidData = {
         name: '',
         description: 'Nombre no puede estar vacío',
@@ -201,31 +227,37 @@ describe('Integration test for consoles API', () => {
       expect(response.statusCode).toEqual(400);
       expect(response.body.title).toBe('validation error');
       expect(Array.isArray(response.body.errors)).toBe(true);
+    
     });
+  
   });
 
   // DELETE /consoles/:id
-
   describe('DELETE /consoles/:id', () => {
 
     test('should delete a console and return 200', async () => {
 
-        const response = await request(app).delete('/consoles/1');
+      const response = await request(app).delete('/consoles/1');
 
-        expect(response.statusCode).toEqual(200);
-        expect(response.body.title).toBe('success');
-        expect(response.body.message).toBe('Console with id 1 deleted successfully');
+      expect(response.statusCode).toEqual(200);
+      expect(response.body.title).toBe('success');
+      expect(response.body.message).toBe('Console with id 1 deleted successfully');
 
-        const dbConsole = await db('consoles').where({ id: 1 }).first();
-        expect(dbConsole).toBeUndefined();
+      const dbConsole = await db('consoles').where({ id: 1 }).first();
+      
+      expect(dbConsole).toBeUndefined();
+    
     });
 
     test('should return 404 if console to delete is not found', async () => {
 
-        const response = await request(app).delete('/consoles/1');
+      const response = await request(app).delete('/consoles/1');
 
-        expect(response.statusCode).toEqual(404);
-        expect(response.body.title).toBe('not-found');
+      expect(response.statusCode).toEqual(404);
+      expect(response.body.title).toBe('not-found');
+    
     });
-});
+  
+  });
+
 });
