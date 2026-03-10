@@ -22,7 +22,8 @@ describe('Integration tests for companies API', () => {
       country: 'Japón',
       year_founded: 1889,
       website: 'https://www.nintendo.com',
-      logo: 'logo.png'
+      logo: 'https://www.nintendo.com/logo.png',
+      founder_name: 'Fusajiro Yamauchi'
     });
 
   });
@@ -98,7 +99,8 @@ describe('Integration tests for companies API', () => {
         country: 'Spain',
         year_founded: 1995,
         website: 'https://integration.co',
-        logo: 'logo.png'
+        logo: 'https://integration.co/logo.png',
+        founder_name: 'Integration Founder'
       };
 
       const res = await request(app).post('/companies').send(payload);
@@ -107,6 +109,7 @@ describe('Integration tests for companies API', () => {
       expect(res.body.title).toBe('created');
       expect(res.body.data).toHaveProperty('id');
       expect(res.body.data.name).toBe(payload.name);
+      expect(res.body.data.founder_name).toBe(payload.founder_name);
 
       const createdId = res.body.data.id;
       
@@ -114,6 +117,7 @@ describe('Integration tests for companies API', () => {
       
       expect(dbCompany).toBeDefined();
       expect(dbCompany.name).toBe('IntegrationCo');
+      expect(dbCompany.founder_name).toBe('Integration Founder');
     
     });
 
@@ -154,7 +158,9 @@ describe('Integration tests for companies API', () => {
         description: 'Updated desc',
         country: 'USA',
         year_founded: 2001,
-        website: 'https://updated.co'
+        website: 'https://updated.co',
+        logo: 'https://updated.co/logo.png',
+        founder_name: 'Updated Founder'
       };
 
       const res = await request(app).put('/companies/1').send(payload);
@@ -162,11 +168,13 @@ describe('Integration tests for companies API', () => {
       expect(res.statusCode).toBe(200);
       expect(res.body.title).toBe('success');
       expect(res.body.data.name).toBe('UpdatedCo');
+      expect(res.body.data.founder_name).toBe('Updated Founder');
 
       const dbCompany = await db('companies').where({ id: 1 }).first();
       
       expect(dbCompany).toBeDefined();
       expect(dbCompany.name).toBe('UpdatedCo');
+      expect(dbCompany.founder_name).toBe('Updated Founder');
     
     });
 

@@ -70,6 +70,20 @@ const validateAddCompany = [
     .isLength({ max: 255 })
     .withMessage("Website must be at most 255 characters long"),
 
+  body("logo")
+    .notEmpty()
+    .withMessage("Logo is required")
+    .isURL()
+    .withMessage("Logo must be a valid URL"),
+
+  body("founder_name")
+    .notEmpty()
+    .withMessage("Founder name is required")
+    .isString()
+    .withMessage("Founder name must be a string")
+    .isLength({ max: 100 })
+    .withMessage("Founder name must be at most 100 characters long"),
+
   validateResult,
 ];
 

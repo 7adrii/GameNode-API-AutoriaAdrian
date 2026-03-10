@@ -9,20 +9,21 @@ CREATE TABLE IF NOT EXISTS companies (
   country VARCHAR(50) NOT NULL,
   year_founded INT NOT NULL,
   website VARCHAR(255) NOT NULL,
-  logo VARCHAR(255) NOT NULL
+  logo VARCHAR(255) NOT NULL,
+  founder_name VARCHAR(255) NOT NULL
 );
 
-INSERT INTO companies (name, description, country, year_founded, website, logo) VALUES
-('Nintendo', 'Gigante japonés del entretenimiento familiar.', 'Japón', 1889, 'https://www.nintendo.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Nintendo.svg/1920px-Nintendo.svg.png'),
-('Sony Interactive', 'Líderes en tecnología y entretenimiento doméstico.', 'EEUU', 1993, 'https://www.playstation.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Sony_logo.svg/1200px-Sony_logo.svg.png'),
-('Microsoft', 'Multinacional tecnológica creadora de Xbox.', 'EEUU', 1975, 'https://www.xbox.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/1920px-Microsoft_logo_%282012%29.svg.png'),
-('Capcom', 'Desarrolladora legendaria de arcades.', 'Japón', 1979, 'https://www.capcom.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Capcom_logo.svg/1920px-Capcom_logo.svg.png'),
-('Square Enix', 'Maestros del género RPG y la narrativa.', 'Japón', 1975, 'https://www.square-enix.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Square_Enix_logo.svg/1920px-Square_Enix_logo.svg.png'),
-('Ubisoft', 'Creadores de inmensos mundos abiertos.', 'Francia', 1986, 'https://www.ubisoft.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Ubisoft_logo.svg/1920px-Ubisoft_logo.svg.png'),
-('Electronic Arts', 'Gigante de los videojuegos deportivos.', 'EEUU', 1982, 'https://www.ea.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Electronic_Arts_Logo_2020.svg/1920px-Electronic_Arts_Logo_2020.svg.png'),
-('Sega', 'Icono de los 90, ahora dedicado al software.', 'Japón', 1960, 'https://www.sega.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Sega_logo.svg/1920px-Sega_logo.svg.png'),
-('Rockstar Games', 'Pioneros del género sandbox moderno.', 'EEUU', 1998, 'https://www.rockstargames.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rockstar_Games_Logo.svg/1920px-Rockstar_Games_Logo.svg.png'),
-('Bandai Namco', 'Fusión de entretenimiento y juguetes.', 'Japón', 2005, 'https://www.bandainamco.co.jp', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Bandai_Namco_Holdings_logo.svg/1920px-Bandai_Namco_Holdings_logo.svg.png');
+INSERT INTO companies (name, description, country, year_founded, website, logo, founder_name) VALUES
+('Nintendo', 'Gigante japonés del entretenimiento familiar.', 'Japón', 1889, 'https://www.nintendo.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Nintendo.svg/1920px-Nintendo.svg.png', 'David Evil'),
+('Sony Interactive', 'Líderes en tecnología y entretenimiento doméstico.', 'EEUU', 1993, 'https://www.playstation.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Sony_logo.svg/1200px-Sony_logo.svg.png', 'Diego Puertolas'),
+('Microsoft', 'Multinacional tecnológica creadora de Xbox.', 'EEUU', 1975, 'https://www.xbox.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/1920px-Microsoft_logo_%282012%29.svg.png', 'Adrian Lorente'),
+('Capcom', 'Desarrolladora legendaria de arcades.', 'Japón', 1979, 'https://www.capcom.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Capcom_logo.svg/1920px-Capcom_logo.svg.png', 'MT'),
+('Square Enix', 'Maestros del género RPG y la narrativa.', 'Japón', 1975, 'https://www.square-enix.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Square_Enix_logo.svg/1920px-Square_Enix_logo.svg.png', 'Hugo Marcuello'),
+('Ubisoft', 'Creadores de inmensos mundos abiertos.', 'Francia', 1986, 'https://www.ubisoft.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Ubisoft_logo.svg/1920px-Ubisoft_logo.svg.png', 'Davit canelas'),
+('Electronic Arts', 'Gigante de los videojuegos deportivos.', 'EEUU', 1982, 'https://www.ea.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Electronic_Arts_Logo_2020.svg/1920px-Electronic_Arts_Logo_2020.svg.png', 'Lorenzo abuelete'),
+('Sega', 'Icono de los 90, ahora dedicado al software.', 'Japón', 1960, 'https://www.sega.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Sega_logo.svg/1920px-Sega_logo.svg.png', 'Ruben orugilla'),
+('Rockstar Games', 'Pioneros del género sandbox moderno.', 'EEUU', 1998, 'https://www.rockstargames.com', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Rockstar_Games_Logo.svg/1920px-Rockstar_Games_Logo.svg.png', 'Marcos emo'),
+('Bandai Namco', 'Fusión de entretenimiento y juguetes.', 'Japón', 2005, 'https://www.bandainamco.co.jp', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Bandai_Namco_Holdings_logo.svg/1920px-Bandai_Namco_Holdings_logo.svg.png', 'Hibrido enchufable');
 
 -- Tabla de videojuegos.
 CREATE TABLE IF NOT EXISTS videogames (
