@@ -8,6 +8,7 @@ const {
   removeCompany,
 } = require("../service/companiesService");
 const { yearsSinceFounded } = require("../utils/yearsSinceFounded");
+const { getCompanyGeneration } = require("../utils/getCompanyGeneration");
 
 /**
  * Obtien el listado de todas las empresas.
@@ -22,9 +23,11 @@ const getAllCompanies = async (req, res, next) => {
     const companies = await findAllCompanies();
     const companiesWithYears = companies.map((company) => {
       const years = yearsSinceFounded(Number(company.year_founded));
+      const generation = getCompanyGeneration(Number(company.year_founded));
       return {
         ...company,
-        yearsSinceFounded: years
+        yearsSinceFounded: years,
+        generation: generation
       };
     });
     
@@ -60,9 +63,11 @@ const getCompanyById = async (req, res, next) => {
     }
 
     const years = yearsSinceFounded(Number(company.year_founded));
+    const generation = getCompanyGeneration(Number(company.year_founded));
     const companyWithYears = {
         ...company,
-        yearsSinceFounded: years
+        yearsSinceFounded: years,
+        generation: generation
     };
 
     res.status(200).json({
